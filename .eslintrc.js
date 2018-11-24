@@ -58,7 +58,7 @@ module.exports = {
       'error',
       {
         'closingSlash': 'never',
-        'beforeSelfClosing': 'never',
+        'beforeSelfClosing': 'always',
         'afterOpening': 'allow-multiline',
         'beforeClosing': 'never'
       }
