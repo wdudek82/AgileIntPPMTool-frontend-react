@@ -38,7 +38,7 @@ module.exports = {
         checkChildContextTypes: false,
       },
     ],
-    'arrow-parens': ['error', 'as-needed'],
+    'arrow-parens': ['error', 'always'],
     'space-before-function-paren': 0,
     'function-paren-newline': ['error', 'consistent'],
     'no-unused-vars': [
