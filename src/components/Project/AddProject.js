@@ -9,14 +9,19 @@ class AddProject extends Component {
     endDate: '',
   };
 
-  handleOnChange = (e, fieldName) => {
+  handleOnChange = (e) => {
     e.preventDefault();
-    const { value } = e.target;
-    this.setState(() => ({ [fieldName]: value }));
+    const { value, name } = e.target;
+    this.setState(() => ({ [name]: value }));
   };
 
   handleOnSubmit = (e) => {
     e.preventDefault();
+    const newProject = {
+      ...this.state,
+    };
+    console.log('project form: ', newProject);
+    this.props.history.replace('/dashboard');
   };
 
   render() {
@@ -37,7 +42,7 @@ class AddProject extends Component {
                     value={this.state.projectName}
                     className="form-control form-control-lg "
                     placeholder="Project Name"
-                    onChange={(e) => this.handleOnChange(e, 'projectName')}
+                    onChange={this.handleOnChange}
                   />
                 </div>
                 <div className="form-group">
@@ -47,9 +52,7 @@ class AddProject extends Component {
                     value={this.state.projectIdentifier}
                     className="form-control form-control-lg"
                     placeholder="Unique Project ID"
-                    onChange={(e) =>
-                      this.handleOnChange(e, 'projectIdentifier')
-                    }
+                    onChange={this.handleOnChange}
                     disabled
                   />
                 </div>
@@ -58,7 +61,7 @@ class AddProject extends Component {
                     name="description"
                     value={this.state.description}
                     className="form-control form-control-lg"
-                    onChange={(e) => this.handleOnChange(e, 'description')}
+                    onChange={this.handleOnChange}
                     placeholder="Project Description"
                   />
                 </div>
@@ -69,7 +72,7 @@ class AddProject extends Component {
                     name="startDate"
                     value={this.state.startDate}
                     className="form-control form-control-lg"
-                    onChange={(e) => this.handleOnChange(e, 'startDate')}
+                    onChange={this.handleOnChange}
                   />
                 </div>
                 <h6>Estimated End Date</h6>
@@ -79,7 +82,7 @@ class AddProject extends Component {
                     name="endDate"
                     value={this.state.endDate}
                     className="form-control form-control-lg"
-                    onChange={(e) => this.handleOnChange(e, 'endDate')}
+                    onChange={this.handleOnChange}
                   />
                 </div>
 
