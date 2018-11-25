@@ -17,10 +17,12 @@ class AddProject extends Component {
 
   handleOnSubmit = (e) => {
     e.preventDefault();
+
     const newProject = {
       ...this.state,
     };
-    console.log('project form: ', newProject);
+
+    console.log('new project: ', newProject);
     this.props.history.replace('/dashboard');
   };
 
