@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { createProject, createProject2 } from '../../actions/projectActions';
 
 class AddProject extends Component {
   state = {
@@ -23,7 +26,7 @@ class AddProject extends Component {
     };
 
     console.log('new project: ', newProject);
-    this.props.history.replace('/dashboard');
+    this.props.createProject2(newProject, this.props.history);
   };
 
   render() {
@@ -55,7 +58,6 @@ class AddProject extends Component {
                     className="form-control form-control-lg"
                     placeholder="Unique Project ID"
                     onChange={this.handleOnChange}
-                    disabled
                   />
                 </div>
                 <div className="form-group">
@@ -101,4 +103,12 @@ class AddProject extends Component {
   }
 }
 
-export default AddProject;
+AddProject.propTypes = {
+  createProject: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
+};
+
+export default connect(
+  null,
+  { createProject, createProject2 },
+)(AddProject);
