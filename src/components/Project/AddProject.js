@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { createProject, createProject2 } from '../../actions/projectActions';
+import { createProject } from '../../actions/projectActions';
 
 class AddProject extends Component {
   state = {
@@ -10,7 +10,15 @@ class AddProject extends Component {
     description: '',
     startDate: '',
     endDate: '',
+    errors: {},
   };
+
+  componentWillReceiveProps(nextProps) {
+    console.log('nextProps: ', nextProps);
+    if (nextProps.errors) {
+      this.setState(() => ({ errors: nextProps.errors }));
+    }
+  }
 
   handleOnChange = (e) => {
     e.preventDefault();
@@ -26,10 +34,12 @@ class AddProject extends Component {
     };
 
     console.log('new project: ', newProject);
-    this.props.createProject2(newProject, this.props.history);
+    this.props.createProject(newProject, this.props.history);
   };
 
   render() {
+    const { errors } = this.state;
+
     return (
       <div className="register">
         <div className="container">
@@ -49,6 +59,7 @@ class AddProject extends Component {
                     placeholder="Project Name"
                     onChange={this.handleOnChange}
                   />
+                  <p>{errors.projectName}</p>
                 </div>
                 <div className="form-group">
                   <input
@@ -59,6 +70,7 @@ class AddProject extends Component {
                     placeholder="Unique Project ID"
                     onChange={this.handleOnChange}
                   />
+                  <p>{errors.projectIdentifier}</p>
                 </div>
                 <div className="form-group">
                   <textarea
@@ -68,6 +80,7 @@ class AddProject extends Component {
                     onChange={this.handleOnChange}
                     placeholder="Project Description"
                   />
+                  <p>{errors.description}</p>
                 </div>
                 <h6>Start Date</h6>
                 <div className="form-group">
@@ -78,6 +91,7 @@ class AddProject extends Component {
                     className="form-control form-control-lg"
                     onChange={this.handleOnChange}
                   />
+                  <p>{errors.startDate}</p>
                 </div>
                 <h6>Estimated End Date</h6>
                 <div className="form-group">
@@ -88,6 +102,7 @@ class AddProject extends Component {
                     className="form-control form-control-lg"
                     onChange={this.handleOnChange}
                   />
+                  <p>{errors.endDate}</p>
                 </div>
 
                 <input
@@ -106,9 +121,14 @@ class AddProject extends Component {
 AddProject.propTypes = {
   createProject: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired,
 };
 
+const mapStateToProps = (state) => ({
+  errors: state.errors,
+});
+
 export default connect(
-  null,
-  { createProject, createProject2 },
+  mapStateToProps,
+  { createProject },
 )(AddProject);
