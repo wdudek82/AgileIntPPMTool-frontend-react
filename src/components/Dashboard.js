@@ -6,17 +6,29 @@ import ProjectItem from './Project/ProjectItem';
 import CreateProjectButton from './Project/CreateProjectButton';
 
 class Dashboard extends Component {
-  state = {
-    projects: {},
-  };
-
   componentDidMount() {
-    this.setState(() => ({ projects: this.props.getProjects() }));
+    this.props.getProjects();
   }
 
-  render() {
-    console.log('projects: ', this.state.projects);
+  renderProjects = () => {
+    if (this.props.projects !== null) {
+      return this.props.projects.map(
+        (project) => (
+          <ProjectItem
+            key={project.projectIdentifier}
+            project={project}
+          />
+        ),
+      );
+    }
+    return [];
+  };
 
+  render() {
+    console.log(
+      'projects render:',
+      this.props.projects !== null ? this.props.projects : 'nope',
+    );
     return (
       <div className="projects">
         <div className="container">
@@ -27,10 +39,9 @@ class Dashboard extends Component {
 
               <CreateProjectButton />
 
+              {this.renderProjects()}
               <br />
               <hr />
-
-              <ProjectItem />
             </div>
           </div>
         </div>
@@ -39,13 +50,17 @@ class Dashboard extends Component {
   }
 }
 
+Dashboard.defaultProps = {
+  projects: [],
+};
+
 Dashboard.propsTypes = {
-  projects: PropTypes.object.isRequired,
+  projects: PropTypes.array,
   getProjects: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  projects: state.projects,
+  projects: state.projects.projects,
 });
 
 export default connect(
