@@ -21,7 +21,6 @@ class AddProject extends Component {
   }
 
   handleOnChange = (e) => {
-    e.preventDefault();
     const { value, name } = e.target;
     this.setState(() => ({ [name]: value }));
   };
@@ -33,7 +32,6 @@ class AddProject extends Component {
       ...this.state,
     };
 
-    console.log('new project: ', newProject);
     this.props.createProject(newProject, this.props.history);
   };
 

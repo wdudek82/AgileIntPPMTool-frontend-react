@@ -1,27 +1,48 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getProject } from '../../actions/projectActions';
 import classnames from 'classnames';
+import { createProject, getProject } from '../../actions/projectActions';
 
 class UpdateProject extends Component {
   state = {
-    projectIdentifier: '',
+    id: '',
     projectName: '',
+    projectIdentifier: '',
     description: '',
+    startDate: '',
+    endDate: '',
+    errors: {},
   };
 
   componentDidMount() {
     const { id } = this.props.match.params;
-    if (id) {
-      this.props.getProject(id);
-      this.setState(() => ({ ...this.props.project }));
-    }
+    this.props.getProject(id, this.props.history);
   }
 
-  render() {
-    const { errors } = this.props.errors;
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState(() => ({ errors: nextProps.errors }));
+    }
 
-    console.log('project: ', this.props.project);
+    const { project } = nextProps;
+    this.setState((prevState) => ({ ...prevState, ...project }));
+
+  }
+
+  handleOnChange = (e) => {
+    const { value, name } = e.target;
+    this.setState(() => ({ [name]: value }));
+  };
+
+  handleOnSubmit = (e) => {
+    e.preventDefault();
+    this.props.createProject(this.state, this.props.history);
+  };
+
+  render() {
+    const { errors } = this.state;
+
     return (
       <div>
         <h1>Update project</h1>
@@ -57,6 +78,7 @@ class UpdateProject extends Component {
                         'is-invalid': errors.projectIdentifier,
                       })}
                       placeholder="Unique Project ID"
+                      disabled
                       onChange={this.handleOnChange}
                     />
                     <p className="text-danger">{errors.projectIdentifier}</p>
@@ -110,6 +132,14 @@ class UpdateProject extends Component {
   }
 }
 
+UpdateProject.propTypes = {
+  id: PropTypes.string.isRequired,
+  getProject: PropTypes.func.isRequired,
+  createProject: PropTypes.func.isRequired,
+  project: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired,
+};
+
 const mapStateToProps = (state) => ({
   project: state.projects.project,
   errors: state.errors,
@@ -117,5 +147,5 @@ const mapStateToProps = (state) => ({
 
 export default connect(
   mapStateToProps,
-  { getProject },
+  { getProject, createProject },
 )(UpdateProject);
