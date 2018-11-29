@@ -27,7 +27,6 @@ class UpdateProject extends Component {
 
     const { project } = nextProps;
     this.setState((prevState) => ({ ...prevState, ...project }));
-
   }
 
   handleOnChange = (e) => {
@@ -45,12 +44,12 @@ class UpdateProject extends Component {
 
     return (
       <div>
-        <h1>Update project</h1>
 
         <div className="register">
           <div className="container">
             <div className="row">
               <div className="col-md-8 m-auto">
+                <h1>Update project</h1>
                 <h5 className="display-4 text-center">
                   Create / Edit Project form
                 </h5>
