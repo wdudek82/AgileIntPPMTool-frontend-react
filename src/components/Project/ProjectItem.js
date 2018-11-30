@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
+import { PropTypes } from 'prop-types';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { deleteProject } from '../../actions/projectActions';
 
 class ProjectItem extends Component {
+  static propTypes = {
+    deleteProject: PropTypes.func.isRequired,
+    project: PropTypes.object.isRequired,
+  };
+
   render() {
     const { projectIdentifier, projectName, description } = this.props.project;
 
@@ -28,11 +36,12 @@ class ProjectItem extends Component {
                     <i className="fa fa-edit pr-1"> Update Project Info</i>
                   </li>
                 </Link>
-                <a href="#/">
-                  <li className="list-group-item delete">
-                    <i className="fa fa-minus-circle pr-1"> Delete Project</i>
-                  </li>
-                </a>
+                <li
+                  className="list-group-item delete"
+                  onClick={() => this.props.deleteProject(projectIdentifier)}
+                >
+                  <i className="fa fa-minus-circle pr-1"> Delete Project</i>
+                </li>
               </ul>
             </div>
           </div>
@@ -42,4 +51,7 @@ class ProjectItem extends Component {
   }
 }
 
-export default ProjectItem;
+export default connect(
+  null,
+  { deleteProject },
+)(ProjectItem);

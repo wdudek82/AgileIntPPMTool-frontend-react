@@ -12,14 +12,9 @@ class Dashboard extends Component {
 
   renderProjects = () => {
     if (this.props.projects !== null) {
-      return this.props.projects.map(
-        (project) => (
-          <ProjectItem
-            key={project.projectIdentifier}
-            project={project}
-          />
-        ),
-      );
+      return this.props.projects.map((project) => (
+        <ProjectItem key={project.projectIdentifier} project={project} />
+      ));
     }
     return [];
   };
